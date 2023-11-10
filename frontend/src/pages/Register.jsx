@@ -16,6 +16,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State untuk menentukan apakah pengguna sudah login
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -25,11 +26,7 @@ const Register = () => {
       return;
     }
     try {
-      await registerUser(
-        e.target.name.value,
-        e.target.email.value,
-        password
-      );
+      await registerUser(e.target.name.value, e.target.email.value, password);
       toast({
         title: "Registered",
         description: "You have successfully registered.",
@@ -37,6 +34,9 @@ const Register = () => {
         duration: 3000,
         isClosable: true,
       });
+
+      // Set state isLoggedIn menjadi true setelah berhasil login
+      setIsLoggedIn(true);
       navigate("/");
     } catch (e) {
       const error = new Error(e);
@@ -51,6 +51,10 @@ const Register = () => {
     setError(error?.message || "An error occurred");
   };
 
+  // Jika pengguna sudah login, kembalikan null (tidak menampilkan form register)
+  if (isLoggedIn) {
+    return null;
+  }
   return (
     <Box w="full" py={4} px={24} mx="auto" mt={8}>
       <Text fontSize="xl" fontWeight="bold" mb={4}>

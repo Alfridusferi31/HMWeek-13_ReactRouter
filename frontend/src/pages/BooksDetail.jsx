@@ -75,7 +75,7 @@ export default function BookDetails() {
           </Box>
         </Flex>
       )}
-      {localStorage.getItem('token') && (
+      {localStorage.getItem("token") && (
         <HStack>
           <Popover>
             <PopoverTrigger>
